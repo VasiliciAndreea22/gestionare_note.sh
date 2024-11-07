@@ -1,0 +1,41 @@
+#!/bin/bash
+FISIER_NOTE="nota.txt"
+
+if [ ! -f "$FISIER_NOTE" ]; then
+  touch "$FISIER_NOTE"
+fi
+
+#functie - adaugare nota
+adauga_nota() {
+  read -p "Introduceti materia: " materie
+  read -p "Introduceti nota pentru $materie: " nota
+  echo "$materie:$nota" >> "$FISIER_NOTE"
+  echo -e "\nNota cu succes adaugata pentru materie $materie"
+}
+
+sterge_nota() {
+  read -p "Materie - stergere nota: " materie
+  sed -i "/^$materie:/d" "$FISIER_NOTE"
+  echo "Nota pentru $materie a fost stearsa"
+}
+
+afiseaza_nota() {
+  echo "Notele stocate sunt: "
+  cat "$FISIER_NOTE"
+}
+
+while true; do
+  echo -e "\n1. Adauga nota"
+  echo "2. Sterge nota"
+  echo "3. Afiseaza nota"
+  echo "4. Iesire"
+  read -p "Alegeti o optiune: " option
+
+  case $option in
+    1) adauga_nota ;;
+    2) sterge_nota ;;
+    3) afiseaza_nota ;;
+    4) echo "La revedere!"; exit ;;
+    *) echo "Optiune invalida!" ;;
+  esac
+done
